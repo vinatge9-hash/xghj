@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>The Daily Grind | Cart</title>
+  <meta name='description' content='Cart for The Daily Grind - view items and proceed to checkout.'>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = { theme: { fontFamily: { lora: ['Lora','serif'], inter: ['Inter','system-ui'] } } }
+  </script>
+</head>
+<body id='page' class='opacity-0 transition-opacity duration-700' onload="document.getElementById('page').classList.remove('opacity-0');">
+  <header class='bg-[#6B4F4B] text-white'>
+    <nav class='container mx-auto flex items-center justify-between p-4'>
+      <a href='index.html' class='text-2xl font-bold font-lora'>The Daily Grind</a>
+      <ul class='hidden md:flex md:space-x-6'>
+        <li><a href='index.html' class='hover:brightness-110 transition-all duration-300'>Home</a></li>
+        <li><a href='about.html' class='hover:brightness-110 transition-all duration-300'>Our Story</a></li>
+        <li><a href='cart.html' class='hover:brightness-110 transition-all duration-300'>Cart</a></li>
+        <li><a href='contact.html' class='hover:brightness-110 transition-all duration-300'>Visit</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class='container mx-auto px-4 py-12'>
+    <h1 class='font-lora text-3xl mb-4'>Your Cart</h1>
+    <div id='cartContainer'>
+      <p class='text-inter'>Loading cart...</p>
+    </div>
+    <div class='mt-6 flex flex-wrap gap-4'>
+      <a href='index.html' class='bg-amber-600 text-white px-4 py-2 rounded transition-all duration-300 hover:brightness-110'>Continue Shopping</a>
+      <a href='checkout.html' class='bg-amber-600 text-white px-4 py-2 rounded transition-all duration-300 hover:brightness-110'>Checkout</a>
+    </div>
+  </main>
+
+  <footer class='bg-[#6B4F4B] text-white'>
+    <div class='container mx-auto px-4 py-6 text-center'>
+      <p class='text-sm'>&copy; 2025 The Daily Grind. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function formatMoney(n){ return '$' + n.toFixed(2); }
+    function renderCart(){
+      const items = JSON.parse(localStorage.getItem('td_cart') || '[]');
+      const container = document.getElementById('cartContainer');
+      if(!container) return;
+      if(!items.length){ container.innerHTML = '<p>Your cart is empty. Add delicious drinks from our menu!</p>'; return; }
+      let html = '<table class="w-full mt-4 text-left"><thead><tr><th class="pr-4">Item</th><th class="pr-4">Price</th><th>Qty</th><th>Total</th><th>Action</th></tr></thead><tbody>';
+      let grand = 0;
+      items.forEach((it, idx)=>{
+        const total = it.price * it.qty;
+        grand += total;
+        html += `<tr class='hover:bg-gray-100'>
+          <td class='py-2'>${it.name}</td>
+          <td>${formatMoney(it.price)}</td>
+          <td><input type='number' min='1' value='${it.qty}' data-idx='${idx}' class='w-16 p-1 rounded bg-white text-black' /></td>
+          <td>${formatMoney(total)}</td>
+          <td><button class='remove-item text-red-600 hover:underline' data-idx='${idx}'>Remove</button></td>
+        </tr>`;
+      });
+      html += `</tbody></table><p class='text-right font-semibold mt-2'>Grand Total: ${formatMoney(grand)}</p>`;
+      container.innerHTML = html;
+      // attach handlers for qty changes and remove
+      container.querySelectorAll('input[type=number]').forEach(inp => {
+        inp.addEventListener('change', function(){
+          const idx = parseInt(this.getAttribute('data-idx'));
+          const newQty = parseInt(this.value) || 1;
+          const arr = JSON.parse(localStorage.getItem('td_cart') || '[]');
+          arr[idx].qty = newQty;
+          localStorage.setItem('td_cart', JSON.stringify(arr));
+          renderCart();
+        });
+      });
+      container.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', function(){
+          const idx = parseInt(this.getAttribute('data-idx'));
+          const arr = JSON.parse(localStorage.getItem('td_cart') || '[]');
+          arr.splice(idx,1);
+          localStorage.setItem('td_cart', JSON.stringify(arr));
+          renderCart();
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{ renderCart(); const h = document.getElementById('page'); if(h) h.classList.remove('opacity-0'); });
+  </script>
+</body>
+</html>
