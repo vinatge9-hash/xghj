@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>The Daily Grind | Checkout</title>
+  <meta name='description' content='Checkout flow for The Daily Grind with a live cart summary.'>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = { theme: { fontFamily: { lora: ['Lora','serif'], inter: ['Inter','system-ui'] } } }
+  </script>
+</head>
+<body id='page' class='opacity-0 transition-opacity duration-700' onload="document.getElementById('page').classList.remove('opacity-0');">
+  <header class='bg-[#6B4F4B] text-white'>
+    <nav class='container mx-auto flex items-center justify-between p-4'>
+      <a href='index.html' class='text-2xl font-bold font-lora'>The Daily Grind</a>
+      <a href='cart.html' id='cartLink' class='bg-amber-600 text-white px-4 py-2 rounded transition-all duration-300'>Cart</a>
+    </nav>
+  </header>
+
+  <main class='container mx-auto px-4 py-8'>
+    <h1 class='font-lora text-3xl mb-4'>Checkout</h1>
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-8'>
+      <section>
+        <h2 class='font-lora text-xl mb-2'>Delivery Details</h2>
+        <form id='checkoutForm' class='space-y-3'>
+          <input class='w-full p-2 rounded bg-white text-black' type='text' placeholder='Full Name' required />
+          <input class='w-full p-2 rounded bg-white text-black' type='email' placeholder='Email' required />
+          <input class='w-full p-2 rounded bg-white text-black' type='text' placeholder='Address' required />
+          <div class='grid grid-cols-2 gap-4'>
+            <input class='p-2 rounded bg-white text-black' type='text' placeholder='City' required />
+            <input class='p-2 rounded bg-white text-black' type='text' placeholder='Postal Code' required />
+          </div>
+        </form>
+      </section>
+      <section>
+        <h2 class='font-lora text-xl mb-2'>Order Summary</h2>
+        <div id='orderSummary' class='p-3 bg-white rounded shadow'>Loading...</div>
+      </section>
+    </div>
+    <div class='mt-6'>
+      <button id='placeOrder' class='bg-amber-600 text-white px-6 py-3 rounded transition-all duration-300 hover:brightness-110'>Place Order</button>
+    </div>
+  </main>
+
+  <footer class='bg-[#6B4F4B] text-white'>
+    <div class='container mx-auto px-4 py-6 text-center'>
+      <p class='text-sm'>&copy; 2025 The Daily Grind. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function formatMoney(n){ return '$' + n.toFixed(2); }
+    function renderOrder(){
+      const items = JSON.parse(localStorage.getItem('td_cart') || '[]');
+      const sum = items.reduce((acc,i)=> acc + (i.price * (i.qty||1)), 0);
+      const out = document.getElementById('orderSummary');
+      if(!out) return;
+      if(!items.length){ out.innerHTML = '<p>Your cart is empty.</p>'; return; }
+      let html = '<ul class="list-disc pl-5">';
+      items.forEach(it => {
+        html += `<li>${it.name} × ${it.qty} = ${formatMoney((it.price||0) * it.qty)}</li>`;
+      });
+      html += '</ul><p class="mt-2 font-semibold">Total: ' + formatMoney(sum) + '</p>';
+      out.innerHTML = html;
+    }
+    function placeOrder(e){ e.preventDefault();
+      const items = JSON.parse(localStorage.getItem('td_cart') || '[]');
+      if(!items.length){ alert('Your cart is empty.'); return; }
+      alert('Order placed! Thank you for your purchase.');
+      localStorage.removeItem('td_cart');
+      window.location.href = 'index.html';
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{ renderOrder(); const f = document.getElementById('checkoutForm'); if(f){ f.addEventListener('submit', (e)=>{ e.preventDefault(); alert('Details saved. You will receive a confirmation email shortly.'); }); } document.getElementById('placeOrder').addEventListener('click', placeOrder); });
+  </script>
+</body>
+</html>
