@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>The Daily Grind | Our Story</title>
+  <meta name='description' content='Learn about the passion and people behind The Daily Grind.'>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = { theme: { fontFamily: { lora: ['Lora','serif'], inter: ['Inter','system-ui'] } } }
+  </script>
+</head>
+<body id='page' class='opacity-0 transition-opacity duration-700' onload="document.getElementById('page').classList.remove('opacity-0');">
+  <header class='bg-[#6B4F4B] text-white'>
+    <nav class='container mx-auto flex items-center justify-between p-4'>
+      <a href='index.html' class='text-2xl font-bold font-lora'>The Daily Grind</a>
+      <ul class='hidden md:flex md:space-x-6'>
+        <li><a href='index.html' class='hover:brightness-110 transition-all duration-300'>Home</a></li>
+        <li><a href='about.html' class='hover:brightness-110 transition-all duration-300'>Our Story</a></li>
+        <li><a href='contact.html' class='hover:brightness-110 transition-all duration-300'>Visit</a></li>
+        <li><a id='cartLink' href='cart.html' class='bg-amber-600 text-white px-4 py-2 rounded ml-2 transition-all duration-300'>Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class='min-h-screen flex items-center justify-center bg-cover bg-center' style="background-image: url('https://pixabay.com/get/g995ac3680db6d42bbe9f9c1fefc2ac7a1f1c3c3f7646df558bffb99bf8409a9c105d311fcde1a12bea90857dc51017780d34081ed992e6754a827948a5a80104_640.jpg');">
+    <div class='bg-black/40 p-6 rounded-lg text-center text-white'>
+      <h1 class='font-lora text-4xl md:text-5xl mb-4'>Our Story</h1>
+      <p class='max-w-2xl mx-auto text-lg'>From the first brew to the last sip, The Daily Grind is built on community, craft, and a shared love for coffee that brings people together.</p>
+    </div>
+  </section>
+
+  <main class='container mx-auto px-4 py-12'>
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-8'>
+      <div class='space-y-4'>
+        <h2 class='font-lora text-2xl'>Our Passion</h2>
+        <p class='text-inter'>We started with a simple belief: great coffee should feel like a warm embrace. Every bean is sourced with care, and every cup is crafted to highlight flavor, balance, and community.</p>
+        <p class='text-inter'>The Daily Grind is more than a cafe; it’s a gathering place where neighbors become friends and stories are shared over a thoughtfully prepared drink.</p>
+      </div>
+      <div class='flex items-center justify-center'>
+        <img src="https://images.unsplash.com/photo-1706017323112-4be03d41e795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODkyNDZ8MHwxfHNlYXJjaHwxMHx8dHdvJTIwZnJpZW5kbHklMkMlMjBkaXZlcnNlJTIwYmFyaXN0YXMlMjBpbiUyMGFwcm9ucyUyMHN0YW5kaW5nJTIwcHJvdWRseSUyMGJlaGluZCUyMGElMjB3b29kZW4lMjBjb2ZmZWUlMjBiYXJ8ZW58MHwwfHx8MTc1NzE2MTU1OXww&ixlib=rb-4.1.0&q=80&w=1080" alt='Founders' class='rounded-lg shadow-md w-full max-w-sm'>
+      </div>
+    </div>
+  </main>
+
+  <footer class='bg-[#6B4F4B] text-white'>
+    <div class='container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6'>
+      <div>
+        <h4 class='font-lora text-xl mb-2'>The Daily Grind</h4>
+        <p class='text-sm'>Cozy, modern cafe dedicated to quality coffee and community.</p>
+      </div>
+      <div>
+        <h4 class='font-lora text-xl mb-2'>Quick Links</h4>
+        <ul class='text-sm space-y-1'>
+          <li><a href='index.html' class='hover:brightness-110 transition-all duration-300'>Home</a></li>
+          <li><a href='about.html' class='hover:brightness-110 transition-all duration-300'>Our Story</a></li>
+          <li><a href='cart.html' class='hover:brightness-110 transition-all duration-300'>Cart</a></li>
+          <li><a href='contact.html' class='hover:brightness-110 transition-all duration-300'>Visit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class='font-lora text-xl mb-2'>Newsletter</h4>
+        <form onsubmit='subscribe(event)' class='flex flex-col gap-2'>
+          <input type='email' placeholder='Email address' class='p-2 rounded bg-white text-black' required />
+          <button type='submit' class='bg-amber-600 text-white py-2 px-4 rounded transition-all duration-300 hover:brightness-110'>Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <hr class='border-t border-white/20'>
+    <p class='text-center text-sm py-3'>&copy; 2025 The Daily Grind. All rights reserved.</p>
+    <script>
+      function subscribe(e){ e.preventDefault(); alert('Thank you for subscribing to The Daily Grind newsletter!'); e.target.reset(); }
+    </script>
+  </footer>
+</body>
+</html>
